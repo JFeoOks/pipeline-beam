@@ -1,6 +1,7 @@
 package pipeline.beam;
 
 import org.apache.beam.sdk.Pipeline;
+import org.apache.beam.sdk.coders.BigEndianIntegerCoder;
 import org.apache.beam.sdk.coders.StringUtf8Coder;
 import org.apache.beam.sdk.io.TextIO;
 import org.apache.beam.sdk.options.PipelineOptions;
@@ -15,6 +16,13 @@ import java.util.List;
 public class Application {
 
     public static void main(String[] args) {
+        PipelineOptions options = PipelineOptionsFactory.create();
+        Pipeline pipeline = Pipeline.create(options);
+
+    }
+
+    private static void setDefaultCoder(Pipeline p) {
+        p.getCoderRegistry().registerCoderForClass(Integer.class, BigEndianIntegerCoder.of());
     }
 
     private static PCollection<String> createPCollectionFromInMemoryData() {
