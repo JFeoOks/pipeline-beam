@@ -18,7 +18,6 @@ public class Application {
     public static void main(String[] args) {
         PipelineOptions options = PipelineOptionsFactory.create();
         Pipeline pipeline = Pipeline.create(options);
-
     }
 
     private static void setDefaultCoder(Pipeline p) {

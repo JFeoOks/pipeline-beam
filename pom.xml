@@ -11,7 +11,52 @@
     <properties>
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
+        <common.version>10.0.6.0-rc003</common.version>
+        <nctoxml.version>9.5.2.1</nctoxml.version>
     </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.1.1</version>
+                <configuration>
+                    <artifactSet>
+                        <excludes>
+                            <exclude>org.xerial.snappy:snappy-java</exclude>
+                        </excludes>
+                    </artifactSet>
+                    <relocations>
+                        <relocation>
+                            <pattern>org.apache</pattern>
+                            <shadedPattern>pipeline.org.apache</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.joda</pattern>
+                            <shadedPattern>pipeline.org.joda</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>com</pattern>
+                            <shadedPattern>pipeline.com</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>google</pattern>
+                            <shadedPattern>pipeline.google</shadedPattern>
+                        </relocation>
+                    </relocations>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
     <dependencies>
         <dependency>
@@ -30,21 +75,56 @@
             <artifactId>beam-sdks-java-io-jms</artifactId>
             <version>2.4.0</version>
         </dependency>
+
         <dependency>
-            <groupId>org.apache.beam</groupId>
-            <artifactId>beam-runners-core-java</artifactId>
-            <version>2.4.0</version>
+            <groupId>com.google.auto.value</groupId>
+            <artifactId>auto-value</artifactId>
+            <version>1.5.4</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.beam</groupId>
-            <artifactId>beam-runners-core-construction-java</artifactId>
-            <version>2.4.0</version>
+            <groupId>com.google.auto</groupId>
+            <artifactId>auto-common</artifactId>
+            <version>0.10</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.netcracker.mediation-common</groupId>
+            <artifactId>mediation-common</artifactId>
+            <scope>provided</scope>
+            <version>${common.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>apache</groupId>
+                    <artifactId>xmlschema</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
-            <groupId>org.apache.beam</groupId>
-            <artifactId>beam-sdks-java-io-common</artifactId>
-            <version>2.4.0</version>
-            <scope>test</scope>
+            <groupId>com.netcracker.mediation-common</groupId>
+            <artifactId>mediation-common-toms</artifactId>
+            <scope>provided</scope>
+            <version>${common.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>apache</groupId>
+                    <artifactId>xmlschema</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring</artifactId>
+            <version>4.1.6.RELEASE</version>
+            <type>pom</type>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>apache</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.4</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
