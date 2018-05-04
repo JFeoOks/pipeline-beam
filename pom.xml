@@ -22,6 +22,16 @@
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.1.1</version>
                 <configuration>
+                    <filters>
+                        <filter>
+                            <artifact>*:*</artifact>
+                            <excludes>
+                                <exclude>META-INF/*.SF</exclude>
+                                <exclude>META-INF/*.DSA</exclude>
+                                <exclude>META-INF/*.RSA</exclude>
+                            </excludes>
+                        </filter>
+                    </filters>
                     <artifactSet>
                         <excludes>
                             <exclude>org.xerial.snappy:snappy-java</exclude>
@@ -29,20 +39,8 @@
                     </artifactSet>
                     <relocations>
                         <relocation>
-                            <pattern>org.apache</pattern>
-                            <shadedPattern>pipeline.org.apache</shadedPattern>
-                        </relocation>
-                        <relocation>
                             <pattern>org.joda</pattern>
                             <shadedPattern>pipeline.org.joda</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>com</pattern>
-                            <shadedPattern>pipeline.com</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>google</pattern>
-                            <shadedPattern>pipeline.google</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>
@@ -75,17 +73,12 @@
             <artifactId>beam-sdks-java-io-jms</artifactId>
             <version>2.4.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.beam</groupId>
+            <artifactId>beam-sdks-java-io-jdbc</artifactId>
+            <version>2.4.0</version>
+        </dependency>
 
-        <dependency>
-            <groupId>com.google.auto.value</groupId>
-            <artifactId>auto-value</artifactId>
-            <version>1.5.4</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.auto</groupId>
-            <artifactId>auto-common</artifactId>
-            <version>0.10</version>
-        </dependency>
 
         <dependency>
             <groupId>com.netcracker.mediation-common</groupId>
@@ -126,6 +119,25 @@
             <version>2.4</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>com.google.auto.factory</groupId>
+            <artifactId>auto-factory</artifactId>
+            <version>1.0-beta5</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.auto.service</groupId>
+            <artifactId>auto-service</artifactId>
+            <version>1.0-rc4</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.auto.value</groupId>
+            <artifactId>auto-value</artifactId>
+            <version>1.5.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.auto</groupId>
+            <artifactId>auto-common</artifactId>
+            <version>0.10</version>
+        </dependency>
     </dependencies>
-
 </project>

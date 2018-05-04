@@ -1,4 +1,4 @@
-package pipeline.beam;
+package pipeline.beam.wrapper;
 
 import com.netcracker.mediation.common.ExceptionUtils;
 import com.netcracker.mediation.common.spring.CommonContextProvider;
@@ -10,11 +10,16 @@ import javax.naming.NamingException;
 import java.io.Serializable;
 
 public class ConnectionFactoryWrapper implements ConnectionFactory, Serializable {
-    final String JMS_CONNECTION_FACTORY_NAME = "com.netcracker.mediation.MediationQueueConnectionFactory";
+
+    private final String jmsConnectionFactoryName;
+
+    public ConnectionFactoryWrapper(String jmsConnectionFactoryName) {
+        this.jmsConnectionFactoryName = jmsConnectionFactoryName;
+    }
 
     public Connection createConnection() throws JMSException {
         try {
-            ConnectionFactory connectionFactory = CommonContextProvider.provide().jndiTemplate().lookup(JMS_CONNECTION_FACTORY_NAME, ConnectionFactory.class, 20000L);
+            ConnectionFactory connectionFactory = CommonContextProvider.provide().jndiTemplate().lookup(jmsConnectionFactoryName, ConnectionFactory.class, 20000L);
             return connectionFactory.createConnection();
         } catch (NamingException e) {
             ExceptionUtils.castAndThrow(e);
@@ -24,7 +29,7 @@ public class ConnectionFactoryWrapper implements ConnectionFactory, Serializable
 
     public Connection createConnection(String userName, String password) throws JMSException {
         try {
-            ConnectionFactory connectionFactory = CommonContextProvider.provide().jndiTemplate().lookup(JMS_CONNECTION_FACTORY_NAME, ConnectionFactory.class, 20000L);
+            ConnectionFactory connectionFactory = CommonContextProvider.provide().jndiTemplate().lookup(jmsConnectionFactoryName, ConnectionFactory.class, 20000L);
             return connectionFactory.createConnection(userName, password);
         } catch (NamingException e) {
             ExceptionUtils.castAndThrow(e);
